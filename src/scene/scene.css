@@ -1,0 +1,435 @@
+/* Сцена прихода команды. Размеры от JS: --charH (рост), --floor (линия пола от верха), --counterH. */
+
+.walk {
+  position: relative;
+}
+
+.walk__sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #07050d 0%, #0e0a1c 55%, #060409 100%);
+  isolation: isolate;
+}
+
+.walk__layer {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  will-change: transform;
+}
+
+.walk__head {
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: clamp(22px, 6svh, 64px) 20px 0;
+  text-align: center;
+  pointer-events: none;
+}
+
+.scene__title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(24px, 3.4vw, 46px);
+  letter-spacing: -0.03em;
+}
+
+.scene__counter {
+  margin: 8px 0 0;
+  font-family: var(--font-display);
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.scene__counter span {
+  color: var(--ink);
+}
+
+/* ---------- стена (0.3) ---------- */
+
+.wall {
+  position: absolute;
+  top: 0;
+  left: -50vw;
+  height: var(--horizon);
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.025) 0 2px, transparent 2px 120px),
+    linear-gradient(to bottom, #0b0817, #100b20 70%, #150f29);
+}
+
+.wall__strip {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 18%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(167, 139, 250, 0.5), transparent 30%, rgba(167, 139, 250, 0.4) 60%, transparent);
+  background-size: 1400px 100%;
+  box-shadow: 0 0 18px rgba(167, 139, 250, 0.35);
+}
+
+.wall__logo {
+  position: absolute;
+  top: 26%;
+  width: clamp(160px, 18vw, 260px);
+  opacity: 0.14;
+  filter: saturate(0.6);
+}
+
+.wall__logo img {
+  width: 100%;
+  height: auto;
+}
+
+/* ---------- средний план (0.6) ---------- */
+
+.mid {
+  position: absolute;
+  inset: 0 auto 0 -50vw;
+}
+
+.decor {
+  position: absolute;
+}
+
+.decor--plant {
+  top: calc(var(--horizon) - var(--charH) * 0.5);
+  width: calc(var(--charH) * 0.36);
+  height: calc(var(--charH) * 0.6);
+  opacity: 0.75;
+  transform-origin: bottom;
+}
+
+.decor--screen {
+  top: calc(var(--horizon) - var(--charH) * 0.6);
+  width: calc(var(--charH) * 0.62);
+  opacity: 0.55;
+  filter: drop-shadow(0 0 20px rgba(124, 58, 237, 0.25));
+}
+
+.decor--lamp {
+  top: 0;
+  width: 60px;
+  height: calc(var(--horizon) * 0.42);
+}
+
+.lamp__cord {
+  position: absolute;
+  left: 29px;
+  top: 0;
+  width: 2px;
+  height: calc(100% - 26px);
+  background: #2a2140;
+}
+
+.lamp__shade {
+  position: absolute;
+  left: 8px;
+  bottom: 0;
+  width: 44px;
+  height: 26px;
+  border-radius: 22px 22px 4px 4px;
+  background: linear-gradient(#2e2648, #191427);
+  border-bottom: 2px solid #ffd99a;
+}
+
+.lamp__light {
+  position: absolute;
+  left: -40px;
+  top: 100%;
+  width: 140px;
+  height: 160px;
+  background: radial-gradient(50% 60% at 50% 0%, rgba(255, 217, 154, 0.18), transparent 70%);
+}
+
+/* ---------- пол и стойки (1.0) ---------- */
+
+.walk__floor {
+  position: absolute;
+  top: var(--horizon);
+  height: calc(100svh - var(--horizon));
+  overflow: hidden;
+  background:
+    linear-gradient(to bottom, rgba(6, 4, 12, 0.9), transparent 35%),
+    linear-gradient(to bottom, #120c24, #16102c 45%, #060409);
+  border-top: 1px solid rgba(167, 139, 250, 0.18);
+}
+
+.walk__floor::before {
+  /* сетка пола в перспективе: сходится к горизонту за стойками */
+  content: '';
+  position: absolute;
+  inset: 0 -20% -40%;
+  background-image:
+    linear-gradient(rgba(167, 139, 250, 0.13) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(167, 139, 250, 0.1) 1px, transparent 1px);
+  background-size: 120px 46px;
+  transform: perspective(520px) rotateX(58deg);
+  transform-origin: top;
+  mask-image: linear-gradient(to bottom, transparent, #000 35%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 35%);
+}
+
+.stand-back,
+.counter {
+  --c: var(--junior);
+  position: absolute;
+}
+
+.stand-back--head,
+.counter--head {
+  --c: var(--gold);
+}
+.stand-back--lead,
+.counter--lead {
+  --c: var(--silver);
+}
+.stand-back--middle,
+.counter--middle {
+  --c: var(--middle);
+}
+
+/* Задняя панель за персонажем */
+.stand-back {
+  top: calc(var(--horizon) - var(--charH) * 0.46);
+  height: calc(var(--charH) * 0.46);
+  border-radius: 26px 26px 0 0;
+  border: 1px solid color-mix(in srgb, var(--c) 25%, transparent);
+  border-bottom: none;
+  border-top: 2px solid color-mix(in srgb, var(--c) 70%, transparent);
+  background:
+    radial-gradient(70% 50% at 50% 30%, color-mix(in srgb, var(--c) 16%, transparent), transparent 70%),
+    linear-gradient(to bottom, rgba(24, 18, 44, 0.85), rgba(12, 9, 22, 0.6));
+  box-shadow: 0 -10px 50px -18px color-mix(in srgb, var(--c) 55%, transparent);
+}
+
+.stand-back--head {
+  top: calc(var(--horizon) - var(--charH) * 0.58);
+  height: calc(var(--charH) * 0.58);
+  border-top-width: 3px;
+  box-shadow: 0 -16px 90px -16px color-mix(in srgb, var(--gold) 60%, transparent);
+}
+
+.stand-back--lead {
+  top: calc(var(--horizon) - var(--charH) * 0.52);
+  height: calc(var(--charH) * 0.52);
+}
+
+.stand-back__label {
+  position: absolute;
+  top: 14px;
+  left: 18px;
+  font-family: var(--font-display);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--c);
+}
+
+.stand-back--head .stand-back__label::before {
+  content: '★ ';
+}
+
+/* Стойка спереди: закрывает персонажа ниже пояса */
+.walk__layer--front {
+  z-index: 3;
+}
+
+.counter {
+  top: calc(var(--floor) - var(--counterH));
+  height: var(--counterH);
+  -webkit-box-reflect: below 0 linear-gradient(transparent 55%, rgba(0, 0, 0, 0.22));
+}
+
+.counter__top {
+  position: absolute;
+  left: -4%;
+  right: -4%;
+  top: -10px;
+  height: 14px;
+  border-radius: 8px;
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--c) 55%, #ffffff), color-mix(in srgb, var(--c) 30%, #130e24));
+  box-shadow: 0 0 22px color-mix(in srgb, var(--c) 45%, transparent);
+}
+
+.counter__front {
+  position: absolute;
+  inset: 4px 0 0;
+  display: grid;
+  /* логотип в углу: по центру его закрывал бы стоящий перед стойкой человек */
+  place-items: end end;
+  padding: 0 14px 12px 0;
+  border-radius: 0 0 10px 10px;
+  border: 1px solid color-mix(in srgb, var(--c) 30%, transparent);
+  border-top: none;
+  background:
+    linear-gradient(to bottom, color-mix(in srgb, var(--c) 18%, #18122c), #0d0a18 70%),
+    #0d0a18;
+  overflow: hidden;
+}
+
+.counter__front::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 30%, rgba(255, 255, 255, 0.06) 45%, transparent 55%);
+}
+
+.counter__front img {
+  width: calc(var(--charH) * 0.1);
+  opacity: 0.75;
+}
+
+.counter--head .counter__front {
+  border-color: color-mix(in srgb, var(--gold) 55%, transparent);
+  box-shadow: inset 0 -30px 50px -20px color-mix(in srgb, var(--gold) 55%, transparent);
+}
+
+.counter--head::after {
+  /* подсветка снизу */
+  content: '';
+  position: absolute;
+  left: -10%;
+  right: -10%;
+  top: 100%;
+  height: 40px;
+  background: radial-gradient(50% 60% at 50% 0%, rgba(246, 201, 107, 0.45), transparent 70%);
+}
+
+.counter--lead .counter__front {
+  border-color: color-mix(in srgb, var(--silver) 45%, transparent);
+}
+
+/* ---------- сотрудники у стоек ---------- */
+
+.walk__layer--people {
+  z-index: 4;
+  pointer-events: none;
+}
+
+.person {
+  position: absolute;
+  max-width: none;
+  filter: drop-shadow(0 14px 16px rgba(0, 0, 0, 0.45));
+  will-change: transform, opacity;
+  user-select: none;
+}
+
+/* Свет на стойке зажигается перед появлением сотрудника. */
+.stand-back__light {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--horizon) - var(--floor));
+  width: 140%;
+  height: calc(var(--charH) * 1.6);
+  translate: -50% 0;
+  background:
+    radial-gradient(40% 38% at 50% 92%, color-mix(in srgb, var(--c) 34%, transparent), transparent 70%),
+    linear-gradient(to bottom, transparent, color-mix(in srgb, var(--c) 10%, transparent));
+  clip-path: polygon(36% 0, 64% 0, 100% 100%, 0 100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ---------- передний план (1.3) ---------- */
+
+.walk__layer--fore {
+  z-index: 6;
+  pointer-events: none;
+}
+
+.fore {
+  position: absolute;
+  inset: 0 auto 0 -50vw;
+}
+
+.fore__leaf {
+  position: absolute;
+  filter: blur(10px);
+}
+
+.fore__leaf {
+  bottom: -7svh;
+  width: 26vmin;
+  height: 22vmin;
+  border-radius: 70% 10% 70% 10%;
+  background: linear-gradient(135deg, #1c1033, #07040c);
+  opacity: 0.9;
+  rotate: -18deg;
+}
+
+
+/* ---------- карточка ---------- */
+
+.walk-card {
+  --c: var(--junior);
+  position: absolute;
+  z-index: 7;
+  left: calc(50% + var(--standW) / 2 + 32px);
+  top: calc(var(--floor) - var(--counterH) - 30px);
+  width: 300px;
+  padding: 18px 18px 18px 20px;
+  border-radius: 20px;
+  border: 1px solid color-mix(in srgb, var(--c) 35%, transparent);
+  background: rgba(16, 12, 30, 0.82);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 24px 60px -24px color-mix(in srgb, var(--c) 50%, transparent);
+  will-change: transform, opacity;
+}
+
+.walk-card--head {
+  --c: var(--gold);
+}
+.walk-card--lead {
+  --c: var(--silver);
+}
+.walk-card--middle {
+  --c: var(--middle);
+}
+
+.walk-card__tier {
+  margin: 0 0 8px;
+  font-family: var(--font-display);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--c);
+}
+
+.walk-card__name {
+  margin: 0 0 14px;
+  font-family: var(--font-display);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.walk-card__name span {
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.walk-card__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+
+/* На узких экранах карточка уходит под стойку. */
+@media (max-width: 1100px) {
+  .walk-card {
+    left: 50%;
+    top: calc(var(--floor) + 22px);
+    width: min(340px, calc(100% - 32px));
+    translate: -50% 0;
+  }
+}
