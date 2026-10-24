@@ -32,4 +32,6 @@ npm run preview  # посмотреть сборку
 
 ## Деплой
 
+Сайт: https://oannaklychev-sketch.github.io/paydigital-support/
+
 Сборка публикуется на GitHub Pages через GitHub Actions (`.github/workflows/deploy.yml`) при каждом пуше в `main`.
