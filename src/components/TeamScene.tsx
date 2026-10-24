@@ -148,15 +148,24 @@ export function TeamScene() {
       if (light) light.style.opacity = r.light.toFixed(3)
     }
 
-    // Звуки по скроллу вперёд: сотрудник появился — «дзынь», камера поехала к следующему — «свуш».
+    // Звуки в обе стороны. Вперёд: сотрудник появился — «дзынь», камера поехала — «свуш».
+    // Назад: сотрудник уходит — нисходящий «дзынь», камера возвращается — тот же «свуш».
     const prev = prevP.current
     prevP.current = p
-    if (prev >= 0 && p > prev && p - prev < 1 / N) {
+    if (prev >= 0 && p !== prev && Math.abs(p - prev) < 1 / N) {
       const a = prev * N
       const b = p * N
-      for (let i = Math.floor(a); i <= Math.floor(b) && i < N; i++) {
-        if (a < i + 0.16 && b >= i + 0.16) sound.chime()
-        if (i < N - 1 && a < i + 0.84 && b >= i + 0.84) sound.whoosh()
+      const lo = Math.min(a, b)
+      const hi = Math.max(a, b)
+      const forward = b > a
+      for (let i = Math.floor(lo); i <= Math.floor(hi) && i < N; i++) {
+        const reveal = i + 0.16
+        const pan = i + 0.84
+        if (lo < reveal && hi >= reveal) {
+          if (forward) sound.chime()
+          else sound.chimeBack()
+        }
+        if (i < N - 1 && lo < pan && hi >= pan) sound.whoosh()
       }
     }
 
