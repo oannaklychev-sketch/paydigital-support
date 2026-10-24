@@ -5,6 +5,7 @@ import avatars from '../avatars.json'
 import { ForeLayer, MidLayer, WallLayer } from '../scene/Decor'
 import { getPose, revealOf, standX, type Env } from '../scene/pose'
 import { TelegramIcon } from './icons'
+import { sound } from '../audio/sound'
 import '../scene/scene.css'
 import { asset } from '../asset'
 
@@ -109,6 +110,7 @@ export function TeamScene() {
   }
   const cardRef = useRef<HTMLDivElement>(null)
   const indexRef = useRef(0)
+  const prevP = useRef(-1)
 
   const [layout, setLayout] = useState<Layout | null>(null)
   const [index, setIndex] = useState(0)
@@ -144,6 +146,18 @@ export function TeamScene() {
       }
       const light = layers.floor.current?.querySelector<HTMLElement>(`[data-light="${i}"]`)
       if (light) light.style.opacity = r.light.toFixed(3)
+    }
+
+    // Звуки по скроллу вперёд: сотрудник появился — «дзынь», камера поехала к следующему — «свуш».
+    const prev = prevP.current
+    prevP.current = p
+    if (prev >= 0 && p > prev && p - prev < 1 / N) {
+      const a = prev * N
+      const b = p * N
+      for (let i = Math.floor(a); i <= Math.floor(b) && i < N; i++) {
+        if (a < i + 0.16 && b >= i + 0.16) sound.chime()
+        if (i < N - 1 && a < i + 0.84 && b >= i + 0.84) sound.whoosh()
+      }
     }
 
     const card = cardRef.current

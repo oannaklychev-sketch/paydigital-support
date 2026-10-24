@@ -3,6 +3,8 @@ import Lenis from 'lenis'
 import { Hero } from './components/Hero'
 import { TeamScene } from './components/TeamScene'
 import { Finale } from './components/Finale'
+import { SoundToggle } from './components/SoundToggle'
+import { sound } from './audio/sound'
 
 export default function App() {
   useEffect(() => {
@@ -20,8 +22,22 @@ export default function App() {
     }
   }, [])
 
+  // Тихий щелчок при наведении на кнопки и ссылки (только когда звук включён).
+  useEffect(() => {
+    let last: Element | null = null
+    const onOver = (e: PointerEvent) => {
+      if (e.pointerType !== 'mouse') return
+      const el = (e.target as Element).closest('.tg-btn, .credit, .sound-toggle')
+      if (el && el !== last) sound.tick()
+      last = el
+    }
+    document.addEventListener('pointerover', onOver)
+    return () => document.removeEventListener('pointerover', onOver)
+  }, [])
+
   return (
     <main>
+      <SoundToggle />
       <Hero />
       <TeamScene />
       <Finale />
