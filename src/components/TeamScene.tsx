@@ -17,19 +17,22 @@ const STAND_W = { head: 1.1, lead: 0.98, middle: 0.88, junior: 0.8 } // × ро�
 const standWidth = (m: Member, l: Layout) => STAND_W[m.tier] * l.charH * (l.mobile ? 0.72 : 1)
 const COUNTER_H = 0.53 // высота столешницы × рост
 
-type Layout = Env & { vh: number; floor: number; mobile: boolean }
+type Layout = Env & { vh: number; floor: number; mobile: boolean; short: boolean }
 const avatarOf = (m: Member) => avatars[m.id as keyof typeof avatars]
 
 function measure(): Layout {
   const vw = window.innerWidth
   const vh = window.innerHeight
-  const mobile = vw < 760
+  // Низкий горизонтальный экран (телефон боком): компактный заголовок, сотрудник крупнее, карточка сбоку.
+  const short = vh < 520 && vw > vh
+  const mobile = vw < 760 && !short
   return {
     vw,
     vh,
-    charH: vh * (mobile ? 0.36 : 0.45),
-    floor: vh * (mobile ? 0.6 : 0.8),
+    charH: vh * (short ? 0.52 : mobile ? 0.36 : 0.45),
+    floor: vh * (short ? 0.9 : mobile ? 0.6 : 0.8),
     mobile,
+    short,
     count: N,
     reduced: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
   }
@@ -230,7 +233,7 @@ export function TeamScene() {
 
   return (
     <section ref={sectionRef} id="team" className="walk" style={{ height: `${N * 100}svh` }}>
-      <div className={`walk__sticky${layout?.mobile ? ' is-mobile' : ''}`} style={vars}>
+      <div className={`walk__sticky${layout?.mobile ? ' is-mobile' : ''}${layout?.short ? ' is-short' : ''}`} style={vars}>
         {layout && (
           <>
             <div className="walk__layer" ref={layers.wall}>

@@ -433,3 +433,57 @@
     translate: -50% 0;
   }
 }
+
+/* Телефон боком: места по высоте мало — заголовок в одну строку, карточка справа от стойки. */
+.walk__sticky.is-short .walk__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 12px;
+  padding-top: max(10px, env(safe-area-inset-top));
+}
+
+.walk__sticky.is-short .walk__head .eyebrow {
+  display: none;
+}
+
+.walk__sticky.is-short .scene__title {
+  font-size: 18px;
+}
+
+.walk__sticky.is-short .scene__counter {
+  margin: 0;
+  font-size: 12px;
+}
+
+.walk__sticky.is-short .walk-card {
+  left: calc(50% + var(--standW) / 2 + 18px);
+  top: calc(var(--floor) - var(--charH) * 0.78);
+  width: min(300px, calc(50% - var(--standW) / 2 - 30px));
+  translate: none;
+  padding: 12px 12px 12px 14px;
+  border-radius: 16px;
+}
+
+.walk__sticky.is-short .walk-card__tier {
+  margin-bottom: 4px;
+}
+
+.walk__sticky.is-short .walk-card__name {
+  margin-bottom: 8px;
+  font-size: 15px;
+}
+
+.walk__sticky.is-short .walk-card__row {
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.walk__sticky.is-short .badge {
+  font-size: 10.5px;
+}
+
+.walk__sticky.is-short .tg-btn {
+  width: 32px;
+  height: 32px;
+}
