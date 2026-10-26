@@ -2,7 +2,7 @@
   "name": "paydigital-support",
   "private": true,
   "version": "1.0.0",
-  "description": "Сайт команды технической поддержки pay.digital",
+  "description": "Сайт команды технической поддержки Pay Digital",
   "author": "ObeOne",
   "type": "module",
   "scripts": {

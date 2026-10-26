@@ -53,7 +53,7 @@ function Stand({ member, index, layout, part }: { member: Member; index: number;
     <div className={`counter counter--${member.tier}`} style={style}>
       <div className="counter__top" />
       <div className="counter__front">
-        <img src={asset('brand/mark.webp')} alt="" draggable={false} />
+        <img src={asset('brand/mark.svg')} alt="" draggable={false} />
       </div>
     </div>
   )

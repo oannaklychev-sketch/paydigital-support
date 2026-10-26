@@ -200,8 +200,8 @@ a {
 
 .hero__logo {
   position: relative;
-  width: clamp(180px, min(26vw, 30svh), 340px);
-  margin-bottom: clamp(8px, 2svh, 24px);
+  width: clamp(220px, min(30vw, 48svh), 420px);
+  margin-bottom: clamp(20px, 4svh, 40px);
 }
 
 .hero__logo img,
@@ -209,13 +209,13 @@ a {
   position: relative;
   width: 100%;
   height: auto;
-  filter: drop-shadow(0 0 28px rgba(124, 58, 237, 0.55));
+  filter: drop-shadow(0 0 24px rgba(124, 58, 237, 0.45));
 }
 
 .hero__logo-glow {
   position: absolute;
-  inset: -60% -20%;
-  background: radial-gradient(closest-side, rgba(167, 139, 250, 0.35), transparent 70%);
+  inset: -160% -12%;
+  background: radial-gradient(closest-side, rgba(167, 139, 250, 0.3), transparent 70%);
   filter: blur(10px);
   animation: breathe 4s ease-in-out infinite;
 }
@@ -602,7 +602,8 @@ a {
 
 .finale__logo {
   position: relative;
-  width: clamp(180px, 22vw, 260px);
+  width: clamp(200px, 24vw, 300px);
+  margin-bottom: 6px;
 }
 
 /* ---------- MOBILE ---------- */

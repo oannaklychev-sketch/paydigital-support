@@ -9,5 +9,5 @@ export function TelegramIcon({ size = 18 }: { size?: number }) {
 }
 
 export function Logo({ className }: { className?: string }) {
-  return <img className={className} src={asset('brand/logo.webp')} alt="pay.digital" draggable={false} />
+  return <img className={className} src={asset('brand/logo.svg')} alt="Pay Digital" draggable={false} />
 }

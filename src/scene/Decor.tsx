@@ -9,7 +9,7 @@ export function WallLayer({ length, logoStep }: { length: number; logoStep: numb
       <div className="wall__strip" />
       {Array.from({ length: logos }, (_, i) => (
         <div className="wall__logo" key={i} style={{ left: i * logoStep }}>
-          <img src={asset('brand/logo.webp')} alt="" draggable={false} />
+          <img src={asset('brand/logo.svg')} alt="" draggable={false} />
         </div>
       ))}
     </div>

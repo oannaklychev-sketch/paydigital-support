@@ -62,7 +62,7 @@ export function Finale() {
       >
         <p className="eyebrow">Вся команда в сборе</p>
         <h2 className="finale__title">
-          Вместе мы — <span className="accent-text">техподдержка pay.digital</span>
+          Вместе мы — <span className="accent-text">техподдержка Pay Digital</span>
         </h2>
       </motion.header>
 
@@ -87,7 +87,7 @@ export function Finale() {
           <Logo />
         </div>
         <p>Мы всегда на связи</p>
-        <p className="copyright">© {YEAR} pay.digital. Все права защищены.</p>
+        <p className="copyright">© {YEAR} Pay Digital. Все права защищены.</p>
         <a className="credit" href="https://t.me/i_am_ObeOne" target="_blank" rel="noopener noreferrer">
           ObeOne
         </a>

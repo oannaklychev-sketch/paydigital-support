@@ -95,7 +95,7 @@ export function Hero() {
               animate={{ y: '0%' }}
               transition={{ duration: 1, delay: 0.82, ease }}
             >
-              pay.digital
+              Pay Digital
             </motion.span>
           </span>
         </h1>
