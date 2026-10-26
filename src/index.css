@@ -62,8 +62,6 @@ a {
   color: var(--accent);
 }
 
-/* ---------- HERO ---------- */
-
 .hero {
   position: relative;
   height: 100svh;
@@ -202,7 +200,6 @@ a {
   position: relative;
   --logo-w: clamp(220px, min(30vw, 48svh), 420px);
   width: var(--logo-w);
-  /* охранное поле по брендбуку: 3u = 0.6 высоты знака ≈ 0.122 ширины логотипа */
   margin-bottom: calc(var(--logo-w) * 0.13);
 }
 
@@ -323,9 +320,6 @@ a {
   }
 }
 
-/* ---------- SCENE (см. scene.css) ---------- */
-
-/* Бейджи уровней */
 .badge {
   display: inline-flex;
   align-items: center;
@@ -360,37 +354,6 @@ a {
   background: rgba(142, 166, 255, 0.12);
   border: 1px solid rgba(142, 166, 255, 0.35);
 }
-
-.tg-btn {
-  flex: none;
-  display: grid;
-  place-items: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 50%;
-  color: #fff;
-  background: linear-gradient(140deg, #37bbfe, #007dbb);
-  box-shadow: 0 6px 18px -6px rgba(55, 187, 254, 0.7);
-  transition:
-    transform 0.3s var(--ease),
-    box-shadow 0.3s var(--ease);
-}
-
-.tg-btn svg {
-  translate: -1px 1px;
-}
-
-.tg-btn:hover {
-  transform: translateY(-2px) scale(1.06);
-  box-shadow: 0 10px 26px -6px rgba(55, 187, 254, 0.9);
-}
-
-.tg-btn:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
-}
-
-/* ---------- FINALE ---------- */
 
 .finale {
   position: relative;
@@ -443,7 +406,6 @@ a {
   letter-spacing: -0.025em;
 }
 
-/* Вся команда в один ряд */
 .lineup {
   margin: 0 -20px;
   padding: 0 20px 18px;
@@ -489,7 +451,6 @@ a {
   --c: var(--middle);
 }
 
-/* Общая линия пола: все фигуры стоят нижним краем на ней. */
 .lineup__figure {
   position: relative;
   width: 100%;
@@ -543,11 +504,6 @@ a {
   padding: 4px 8px;
 }
 
-.lineup__info .tg-btn {
-  width: 34px;
-  height: 34px;
-}
-
 .finale__foot {
   display: flex;
   flex-direction: column;
@@ -568,22 +524,16 @@ a {
 }
 
 .credit {
-  margin-top: 4px;
-  font-family: var(--font-body);
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.18em;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: color-mix(in srgb, var(--muted) 55%, transparent);
   text-decoration: none;
-  background: linear-gradient(100deg, #ffffff 10%, var(--accent) 60%, #8b5cf6);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 0 8px rgba(124, 58, 237, 0.35));
-  transition: filter 0.35s var(--ease);
+  transition: color 0.3s var(--ease);
 }
 
 .credit:hover {
-  filter: drop-shadow(0 0 14px rgba(167, 139, 250, 0.75));
+  color: var(--muted);
 }
 
 .finale__logo {
@@ -592,8 +542,6 @@ a {
   width: var(--logo-w);
   margin: calc(var(--logo-w) * 0.13) 0 calc(var(--logo-w) * 0.13 - 18px);
 }
-
-/* ---------- MOBILE ---------- */
 
 @media (max-width: 720px) {
   .ring--a {

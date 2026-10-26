@@ -1,8 +1,6 @@
 import react from '@vitejs/plugin-react'
 import { defineConfig, type Plugin } from 'vite'
 
-// Политика безопасности для продакшн-сборки. GitHub Pages не даёт задавать HTTP-заголовки,
-// поэтому CSP и referrer-политика ставятся meta-тегами. В dev не добавляем: Vite вставляет inline-скрипты.
 const CSP = [
   "default-src 'self'",
   "script-src 'self'",
@@ -20,7 +18,6 @@ function securityMeta(): Plugin {
   return {
     name: 'security-meta',
     apply: 'build',
-    // Сразу после charset: так политика действует на все ресурсы страницы, включая шрифты.
     transformIndexHtml: (html) =>
       html.replace(
         '<meta charset="UTF-8" />',
@@ -29,7 +26,6 @@ function securityMeta(): Plugin {
   }
 }
 
-// base './' — сборка работает из любой подпапки (GitHub Pages: https://<user>.github.io/<repo>/)
 export default defineConfig({
   base: './',
   plugins: [react(), securityMeta()],

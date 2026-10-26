@@ -1,11 +1,7 @@
-// Чистая функция сцены: всё зависит только от прогресса скролла, поэтому назад сцена идёт ровно так же.
-// Камера стоит у стойки сотрудника, он проявляется у неё в исходной позе, появляется карточка,
-// затем камера переезжает к следующей стойке. Уже появившиеся остаются стоять на своих местах.
-
 export type Pose = {
   activeIndex: number
   t: number
-  cameraX: number // мировая X в центре экрана
+  cameraX: number
   cardOpacity: number
   cardY: number
   cardBlur: number
@@ -26,7 +22,6 @@ const range = (t: number, a: number, b: number) => clamp01((t - a) / (b - a))
 
 export const standX = (i: number, vw: number) => i * vw
 
-// Тайминг внутри отрезка одного сотрудника.
 const T = { lightIn: [0.04, 0.24], reveal: [0.1, 0.32], cardIn: [0.32, 0.4], cardOut: [0.74, 0.82], pan: [0.82, 1] }
 
 export function getPose(progress: number, env: Env): Pose {
@@ -42,7 +37,6 @@ export function getPose(progress: number, env: Env): Pose {
   return {
     activeIndex,
     t,
-    // Последний не уезжает: после него сразу финал.
     cameraX: lerp(here, next, smooth(range(t, T.pan[0], T.pan[1]))),
     cardOpacity: cardIn * (1 - cardOut),
     cardY: reduced ? 0 : cardOut > 0 ? -10 * cardOut : 20 * (1 - cardIn),
@@ -50,7 +44,6 @@ export function getPose(progress: number, env: Env): Pose {
   }
 }
 
-// Появление сотрудника i у своей стойки: свет зажигается, фигура поднимается и проявляется — и остаётся.
 export function revealOf(progress: number, i: number, env: Env): Reveal {
   const local = clamp01(progress) * env.count - i
   const k = easeOut(range(local, T.reveal[0], T.reveal[1]))

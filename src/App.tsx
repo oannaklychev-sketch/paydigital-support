@@ -21,14 +21,14 @@ export default function App() {
     }
   }, [])
 
-  // Тихий щелчок при наведении на кнопки и ссылки.
   useEffect(() => {
     let last: Element | null = null
     const onOver = (e: PointerEvent) => {
       if (e.pointerType !== 'mouse') return
-      const el = (e.target as Element).closest('.tg-btn, .credit')
-      if (el && el !== last) sound.tick()
+      const el = (e.target as Element).closest('.credit')
+      if (el === last) return
       last = el
+      if (el) sound.tick()
     }
     document.addEventListener('pointerover', onOver)
     return () => document.removeEventListener('pointerover', onOver)

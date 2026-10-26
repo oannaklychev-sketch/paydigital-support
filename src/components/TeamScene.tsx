@@ -4,18 +4,16 @@ import { team, tierLabel, type Member } from '../data'
 import avatars from '../avatars.json'
 import { ForeLayer, MidLayer, WallLayer } from '../scene/Decor'
 import { getPose, revealOf, standX, type Env } from '../scene/pose'
-import { TelegramIcon } from './icons'
 import { sound } from '../audio/sound'
 import '../scene/scene.css'
 import { asset } from '../asset'
 
 const N = team.length
 
-// Скорости слоёв относительно камеры: стена, средний план, пол со стойками, передний план.
 const SPEED = { wall: 0.3, mid: 0.6, floor: 1, fore: 1.3 }
-const STAND_W = { head: 1.1, lead: 0.98, middle: 0.88, junior: 0.8 } // × рост сотрудника
+const STAND_W = { head: 1.1, lead: 0.98, middle: 0.88, junior: 0.8 }
 const standWidth = (m: Member, l: Layout) => STAND_W[m.tier] * l.charH * (l.mobile ? 0.72 : 1)
-const COUNTER_H = 0.53 // высота столешницы × рост
+const COUNTER_H = 0.53
 
 type Layout = Env & { vh: number; floor: number; mobile: boolean; short: boolean }
 const avatarOf = (m: Member) => avatars[m.id as keyof typeof avatars]
@@ -23,9 +21,8 @@ const avatarOf = (m: Member) => avatars[m.id as keyof typeof avatars]
 function measure(): Layout {
   const vw = window.innerWidth
   const vh = window.innerHeight
-  // Низкий горизонтальный экран (телефон боком): компактный заголовок, сотрудник крупнее, карточка сбоку.
-  const short = vh < 520 && vw > vh
-  const mobile = vw < 760 && !short
+  const short = vw > vh ? vh < 520 : false
+  const mobile = short ? false : vw < 760
   return {
     vw,
     vh,
@@ -59,7 +56,6 @@ function Stand({ member, index, layout, part }: { member: Member; index: number;
   )
 }
 
-// Исходное фото сотрудника у его стойки: подошвы на линии пола, центр стоп — по центру стойки.
 function Person({ member, index, layout }: { member: Member; index: number; layout: Layout }) {
   const a = avatarOf(member)
   const h = layout.charH * (member.height ?? 1)
@@ -85,6 +81,25 @@ function Person({ member, index, layout }: { member: Member; index: number; layo
   )
 }
 
+function playScrollSounds(prev: number, p: number) {
+  if (prev < 0) return
+  if (p === prev) return
+  if (Math.abs(p - prev) >= 1 / N) return
+  const lo = Math.min(prev, p) * N
+  const hi = Math.max(prev, p) * N
+  const crossed = (x: number) => (x > lo ? x <= hi : false)
+  const last = Math.min(Math.floor(hi), N - 1)
+  for (let i = Math.floor(lo); i <= last; i++) {
+    if (crossed(i + 0.16)) {
+      if (p > prev) sound.chime()
+      else sound.chimeBack()
+    }
+    if (i < N - 1) {
+      if (crossed(i + 0.84)) sound.whoosh()
+    }
+  }
+}
+
 function Card({ member }: { member: Member }) {
   return (
     <>
@@ -92,12 +107,7 @@ function Card({ member }: { member: Member }) {
       <h3 className="walk-card__name">
         {member.firstName} <span>{member.lastName}</span>
       </h3>
-      <div className="walk-card__row">
-        <span className={`badge badge--${member.tier}`}>{member.role}</span>
-        <a className="tg-btn" href={member.telegram} target="_blank" rel="noopener noreferrer" aria-label={`Написать ${member.firstName} в Telegram`}>
-          <TelegramIcon />
-        </a>
-      </div>
+      <span className={`badge badge--${member.tier}`}>{member.role}</span>
     </>
   )
 }
@@ -139,7 +149,6 @@ export function TeamScene() {
     shift(layers.front.current, SPEED.floor)
     shift(layers.fore.current, SPEED.fore)
 
-    // Видны максимум двое (уходящий из кадра и текущий) — остальных не трогаем.
     for (const i of [pose.activeIndex - 1, pose.activeIndex, pose.activeIndex + 1]) {
       if (i < 0 || i >= N) continue
       const r = revealOf(p, i, L)
@@ -152,26 +161,9 @@ export function TeamScene() {
       if (light) light.style.opacity = r.light.toFixed(3)
     }
 
-    // Звуки в обе стороны. Вперёд: сотрудник появился — «дзынь», камера поехала — «свуш».
-    // Назад: сотрудник уходит — нисходящий «дзынь», камера возвращается — тот же «свуш».
     const prev = prevP.current
     prevP.current = p
-    if (prev >= 0 && p !== prev && Math.abs(p - prev) < 1 / N) {
-      const a = prev * N
-      const b = p * N
-      const lo = Math.min(a, b)
-      const hi = Math.max(a, b)
-      const forward = b > a
-      for (let i = Math.floor(lo); i <= Math.floor(hi) && i < N; i++) {
-        const reveal = i + 0.16
-        const pan = i + 0.84
-        if (lo < reveal && hi >= reveal) {
-          if (forward) sound.chime()
-          else sound.chimeBack()
-        }
-        if (i < N - 1 && lo < pan && hi >= pan) sound.whoosh()
-      }
-    }
+    playScrollSounds(prev, p)
 
     const card = cardRef.current
     if (card) {
@@ -195,8 +187,9 @@ export function TeamScene() {
     setLayout(last)
     const onResize = () => {
       const next = measure()
-      // Мобильная адресная строка меняет только высоту — мелкие изменения игнорируем, чтобы не дёргать сцену.
-      if (next.vw === last.vw && Math.abs(next.vh - last.vh) < 120) return
+      const sameWidth = next.vw === last.vw
+      const smallJump = Math.abs(next.vh - last.vh) < 120
+      if (sameWidth ? smallJump : false) return
       last = next
       setLayout(next)
     }
@@ -204,19 +197,16 @@ export function TeamScene() {
     return () => window.removeEventListener('resize', onResize)
   }, [])
 
-  // После смены раскладки или сотрудника — перерисовать текущее состояние.
   useLayoutEffect(() => {
     renderRef.current(progress.get())
   }, [layout, index, progress])
 
   useMotionValueEvent(progress, 'change', (p) => renderRef.current(p))
 
-  // Фото следующего сотрудника подгружаем заранее (~30 КБ), остальные — лениво.
   useEffect(() => {
     const next = team[index + 1]
     if (next) new Image().src = next.avatar
   }, [index])
-
 
   const member = team[index]
   const worldLen = layout ? (N + 1) * layout.vw : 0
@@ -226,7 +216,6 @@ export function TeamScene() {
         '--charH': `${layout.charH}px`,
         '--floor': `${layout.floor}px`,
         '--counterH': `${COUNTER_H * layout.charH}px`,
-        // Линия горизонта: здесь задняя стена встречается с полом.
         '--horizon': `${layout.floor - 0.62 * layout.charH}px`,
         '--standW': `${standWidth(member, layout)}px`,
       } as React.CSSProperties)
@@ -235,7 +224,7 @@ export function TeamScene() {
   return (
     <section ref={sectionRef} id="team" className="walk" style={{ height: `${N * 100}svh` }}>
       <div className={`walk__sticky${layout?.mobile ? ' is-mobile' : ''}${layout?.short ? ' is-short' : ''}`} style={vars}>
-        {layout && (
+        {layout ? (
           <>
             <div className="walk__layer" ref={layers.wall}>
               <WallLayer length={worldLen * SPEED.wall + layout.vw} />
@@ -254,7 +243,6 @@ export function TeamScene() {
                 <Stand key={m.id} member={m} index={i} layout={layout} part="front" />
               ))}
             </div>
-            {/* Сотрудники стоят перед своими стойками в исходной позе. */}
             <div className="walk__layer walk__layer--people" ref={layers.people}>
               {team.map((m, i) => (
                 <Person key={m.id} member={m} index={i} layout={layout} />
@@ -264,7 +252,7 @@ export function TeamScene() {
               <ForeLayer length={worldLen * SPEED.fore + layout.vw} step={Math.max(380, layout.vw * 0.62)} />
             </div>
           </>
-        )}
+        ) : null}
 
         <header className="walk__head">
           <p className="eyebrow">Смена начинается</p>

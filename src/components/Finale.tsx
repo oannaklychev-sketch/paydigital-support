@@ -1,7 +1,7 @@
 import { useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import { team, type Member } from '../data'
-import { Logo, TelegramIcon } from './icons'
+import { Logo } from './icons'
 
 const ease = [0.22, 1, 0.36, 1] as const
 const YEAR = new Date().getFullYear()
@@ -32,15 +32,6 @@ function Member({ member }: { member: Member }) {
           <span>{member.lastName}</span>
         </h3>
         <span className={`badge badge--${member.tier}`}>{member.role}</span>
-        <a
-          className="tg-btn"
-          href={member.telegram}
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label={`Написать ${member.firstName} в Telegram`}
-        >
-          <TelegramIcon />
-        </a>
       </div>
     </motion.li>
   )
@@ -72,7 +63,6 @@ export function Finale() {
         </h2>
       </motion.header>
 
-      {/* Вся команда в один ряд на одной линии пола; на узком экране — горизонтальный скролл со snap. */}
       <div className="lineup">
         <motion.ul className="lineup__track" variants={row} initial="hidden" whileInView="shown" viewport={{ once: true, amount: 0.2 }}>
           {team.map((m) => (

@@ -1,4 +1,3 @@
-/* Сцена прихода команды. Размеры от JS: --charH (рост), --floor (линия пола от верха), --counterH. */
 
 .walk {
   position: relative;
@@ -50,8 +49,6 @@
   color: var(--ink);
 }
 
-/* ---------- стена (0.3) ---------- */
-
 .wall {
   position: absolute;
   top: 0;
@@ -72,8 +69,6 @@
   background-size: 1400px 100%;
   box-shadow: 0 0 18px rgba(167, 139, 250, 0.35);
 }
-
-/* ---------- средний план (0.6) ---------- */
 
 .mid {
   position: absolute;
@@ -134,8 +129,6 @@
   background: radial-gradient(50% 60% at 50% 0%, rgba(255, 217, 154, 0.18), transparent 70%);
 }
 
-/* ---------- пол и стойки (1.0) ---------- */
-
 .walk__floor {
   position: absolute;
   top: var(--horizon);
@@ -148,7 +141,6 @@
 }
 
 .walk__floor::before {
-  /* сетка пола в перспективе: сходится к горизонту за стойками */
   content: '';
   position: absolute;
   inset: 0 -20% -40%;
@@ -181,7 +173,6 @@
   --c: var(--middle);
 }
 
-/* Задняя панель за персонажем */
 .stand-back {
   top: calc(var(--horizon) - var(--charH) * 0.46);
   height: calc(var(--charH) * 0.46);
@@ -223,7 +214,6 @@
   content: '★ ';
 }
 
-/* Стойка спереди: закрывает персонажа ниже пояса */
 .walk__layer--front {
   z-index: 3;
 }
@@ -249,7 +239,6 @@
   position: absolute;
   inset: 4px 0 0;
   display: grid;
-  /* знак в углу; отступ от краёв — охранное поле по брендбуку (3u = 0.6 высоты знака) */
   place-items: end end;
   padding: 0 calc(var(--charH) * 0.054) calc(var(--charH) * 0.054) 0;
   border-radius: 0 0 10px 10px;
@@ -279,7 +268,6 @@
 }
 
 .counter--head::after {
-  /* подсветка снизу */
   content: '';
   position: absolute;
   left: -10%;
@@ -292,8 +280,6 @@
 .counter--lead .counter__front {
   border-color: color-mix(in srgb, var(--silver) 45%, transparent);
 }
-
-/* ---------- сотрудники у стоек ---------- */
 
 .walk__layer--people {
   z-index: 4;
@@ -308,7 +294,6 @@
   user-select: none;
 }
 
-/* Свет на стойке зажигается перед появлением сотрудника. */
 .stand-back__light {
   position: absolute;
   left: 50%;
@@ -323,8 +308,6 @@
   opacity: 0;
   pointer-events: none;
 }
-
-/* ---------- передний план (1.3) ---------- */
 
 .walk__layer--fore {
   z-index: 6;
@@ -350,8 +333,6 @@
   opacity: 0.9;
   rotate: -18deg;
 }
-
-/* ---------- карточка ---------- */
 
 .walk-card {
   --c: var(--junior);
@@ -402,14 +383,6 @@
   font-weight: 500;
 }
 
-.walk-card__row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-/* На узких экранах карточка уходит под стойку. */
 @media (max-width: 1100px) {
   .walk-card {
     left: 50%;
@@ -419,7 +392,6 @@
   }
 }
 
-/* Телефон боком: места по высоте мало — заголовок в одну строку, карточка справа от стойки. */
 .walk__sticky.is-short .walk__head {
   display: flex;
   align-items: baseline;
@@ -459,16 +431,7 @@
   font-size: 15px;
 }
 
-.walk__sticky.is-short .walk-card__row {
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
 .walk__sticky.is-short .badge {
   font-size: 10.5px;
 }
 
-.walk__sticky.is-short .tg-btn {
-  width: 32px;
-  height: 32px;
-}

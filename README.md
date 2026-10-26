@@ -1,37 +1,28 @@
-# Pay Digital — команда технической поддержки
+# Pay Digital: техническая поддержка
 
-Одностраничный сайт отдела технической поддержки Pay Digital: приветствие, сцена, где сотрудники по очереди появляются у своих стоек, и вся команда в один ряд.
+Сайт команды технической поддержки Pay Digital.
 
-Автор — [ObeOne](https://t.me/i_am_ObeOne).
-
-## Стек
-
-React 19 · TypeScript · Vite · framer-motion · Lenis
+https://oannaklychev-sketch.github.io/paydigital-support/
 
 ## Запуск
 
 ```bash
 npm install
-npm run dev      # локально
-npm run build    # сборка в dist/
-npm run preview  # посмотреть сборку
+npm run dev
 ```
+
+Сборка: `npm run build`. Проверка типов: `npm run typecheck`.
 
 ## Структура
 
-- `src/data.ts` — сотрудники в порядке иерархии (имя, должность, уровень, Telegram).
-- `src/components/` — Hero, сцена команды, финал.
-- `src/scene/` — расчёт сцены по скроллу, декор, стили.
-- `public/avatars/` — фото сотрудников (WebP), `public/brand/` — логотип.
-- `scripts/make-avatars.mjs` — пересобирает WebP-аватары из исходных PNG.
-- `scripts/make-brand.mjs` — логотип, иконки и превью из `brand/logo-source.jpg`.
+- `src/data.ts`: состав команды
+- `src/components`: экраны сайта
+- `src/scene`: сцена команды
+- `public/avatars`, `public/brand`: фото и логотип
+- `scripts`: подготовка фото и логотипа
 
 ## Права
 
-© 2026 Pay Digital. Все права защищены — см. [LICENSE](LICENSE). Код, логотип и фотографии сотрудников не распространяются по открытой лицензии. Об уязвимостях — [SECURITY.md](SECURITY.md).
+© 2026 Pay Digital. Все права защищены, см. [LICENSE](LICENSE).
 
-## Деплой
-
-Сайт: https://oannaklychev-sketch.github.io/paydigital-support/
-
-Сборка публикуется на GitHub Pages через GitHub Actions (`.github/workflows/deploy.yml`) при каждом пуше в `main`.
+Автор: ObeOne

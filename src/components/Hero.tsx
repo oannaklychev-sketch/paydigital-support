@@ -5,7 +5,6 @@ import { Logo } from './icons'
 
 const ease = [0.22, 1, 0.36, 1] as const
 
-// Слой фона: скорость скролла (speed) и сила реакции на мышь (depth) у каждого своя.
 function Layer({
   progress,
   mx,

@@ -2,7 +2,6 @@ import { useEffect, useRef } from 'react'
 
 type Dot = { x: number; y: number; z: number; vx: number; vy: number; r: number }
 
-// Лёгкое поле частиц на canvas: глубина z задаёт размер, яркость и силу параллакса мыши.
 export function Particles({ density = 0.00012 }: { density?: number }) {
   const ref = useRef<HTMLCanvasElement>(null)
 

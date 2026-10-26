@@ -1,5 +1,3 @@
-// Декор параллакс-слоёв. Координаты X — в системе своего слоя (мировая X × скорость слоя).
-
 export function WallLayer({ length }: { length: number }) {
   return (
     <div className="wall" style={{ width: length }}>
@@ -51,7 +49,6 @@ function Lamp({ x }: { x: number }) {
   )
 }
 
-// Средний план: растения, экраны и лампы чередуются через равный шаг.
 export function MidLayer({ length, step }: { length: number; step: number }) {
   const count = Math.ceil(length / step) + 1
   return (
@@ -68,7 +65,6 @@ export function MidLayer({ length, step }: { length: number; step: number }) {
   )
 }
 
-// Передний план: крупные размытые силуэты листьев у нижнего края.
 export function ForeLayer({ length, step }: { length: number; step: number }) {
   const count = Math.ceil(length / step) + 1
   return (
