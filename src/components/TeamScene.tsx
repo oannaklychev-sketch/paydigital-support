@@ -53,7 +53,7 @@ function Stand({ member, index, layout, part }: { member: Member; index: number;
     <div className={`counter counter--${member.tier}`} style={style}>
       <div className="counter__top" />
       <div className="counter__front">
-        <img src={asset('brand/mark.svg')} alt="" draggable={false} />
+        <img src={asset('brand/mark-small.svg')} alt="" draggable={false} />
       </div>
     </div>
   )
@@ -62,7 +62,8 @@ function Stand({ member, index, layout, part }: { member: Member; index: number;
 // Исходное фото сотрудника у его стойки: подошвы на линии пола, центр стоп — по центру стойки.
 function Person({ member, index, layout }: { member: Member; index: number; layout: Layout }) {
   const a = avatarOf(member)
-  const k = layout.charH / a.h
+  const h = layout.charH * (member.height ?? 1)
+  const k = h / a.h
   return (
     <img
       className="person"
@@ -74,9 +75,9 @@ function Person({ member, index, layout }: { member: Member; index: number; layo
       draggable={false}
       style={{
         left: standX(index, layout.vw) - a.feetX * k,
-        top: layout.floor - layout.charH,
+        top: layout.floor - h,
         width: a.w * k,
-        height: layout.charH,
+        height: h,
         transformOrigin: `${a.feetX * k}px 100%`,
         opacity: 0,
       }}
@@ -237,7 +238,7 @@ export function TeamScene() {
         {layout && (
           <>
             <div className="walk__layer" ref={layers.wall}>
-              <WallLayer length={worldLen * SPEED.wall + layout.vw} logoStep={Math.max(420, layout.vw * 0.55)} />
+              <WallLayer length={worldLen * SPEED.wall + layout.vw} />
             </div>
             <div className="walk__layer" ref={layers.mid}>
               <MidLayer length={worldLen * SPEED.mid + layout.vw} step={Math.max(220, layout.vw * 0.34)} />

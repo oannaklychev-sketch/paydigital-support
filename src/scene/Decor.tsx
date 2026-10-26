@@ -1,17 +1,9 @@
-import { asset } from '../asset'
-
 // Декор параллакс-слоёв. Координаты X — в системе своего слоя (мировая X × скорость слоя).
 
-export function WallLayer({ length, logoStep }: { length: number; logoStep: number }) {
-  const logos = Math.ceil(length / logoStep) + 1
+export function WallLayer({ length }: { length: number }) {
   return (
     <div className="wall" style={{ width: length }}>
       <div className="wall__strip" />
-      {Array.from({ length: logos }, (_, i) => (
-        <div className="wall__logo" key={i} style={{ left: i * logoStep }}>
-          <img src={asset('brand/logo.svg')} alt="" draggable={false} />
-        </div>
-      ))}
     </div>
   )
 }

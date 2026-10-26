@@ -18,7 +18,13 @@ function Member({ member }: { member: Member }) {
   return (
     <motion.li className={`lineup__item lineup__item--${member.tier}`} variants={item}>
       <div className="lineup__figure">
-        <img src={member.avatar} alt={`${member.firstName} ${member.lastName}`} loading="lazy" draggable={false} />
+        <img
+          src={member.avatar}
+          alt={`${member.firstName} ${member.lastName}`}
+          loading="lazy"
+          draggable={false}
+          style={member.height ? { height: `calc(var(--h) * ${member.height})` } : undefined}
+        />
       </div>
       <div className="lineup__info">
         <h3 className="lineup__name">
@@ -83,7 +89,6 @@ export function Finale() {
         transition={{ duration: 1.1, ease }}
       >
         <div className="finale__logo">
-          <span className="hero__logo-glow" aria-hidden="true" />
           <Logo />
         </div>
         <p>Мы всегда на связи</p>

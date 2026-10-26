@@ -10,12 +10,13 @@ export type Member = {
   tier: Tier
   telegram: string
   avatar: string
+  height?: number // рост относительно остальных (1 — как у всех)
 }
 
 // Порядок важен: это иерархия отдела, сцена и сетка идут строго по нему.
 export const team: Member[] = [
   { id: 'iskander', firstName: 'Искандер', lastName: 'Чарыев', role: 'Head of Technical Support', tier: 'head', telegram: 'https://t.me/XandR_tsPD', avatar: asset('avatars/iskander.webp') },
-  { id: 'eziz', firstName: 'Эзиз', lastName: 'Дурдыев', role: 'Technical Support Lead', tier: 'lead', telegram: 'https://t.me/han_tm', avatar: asset('avatars/eziz.webp') },
+  { id: 'eziz', firstName: 'Эзиз', lastName: 'Дурдыев', role: 'Technical Support Lead', tier: 'lead', telegram: 'https://t.me/han_tm', avatar: asset('avatars/eziz.webp'), height: 1.06 },
   { id: 'ovez', firstName: 'Овез', lastName: 'Аннаклычев', role: 'Technical Support Middle', tier: 'middle', telegram: 'https://t.me/i_am_ObeOne', avatar: asset('avatars/ovez.webp') },
   { id: 'muhammed', firstName: 'Мухаммед', lastName: 'Полатов', role: 'Technical Support Middle', tier: 'middle', telegram: 'https://t.me/impolo98', avatar: asset('avatars/muhammed.webp') },
   { id: 'bayram', firstName: 'Байрам', lastName: 'Реджепов', role: 'Technical Support Junior', tier: 'junior', telegram: 'https://t.me/bvyram', avatar: asset('avatars/bayram.webp') },

@@ -200,8 +200,10 @@ a {
 
 .hero__logo {
   position: relative;
-  width: clamp(220px, min(30vw, 48svh), 420px);
-  margin-bottom: clamp(20px, 4svh, 40px);
+  --logo-w: clamp(220px, min(30vw, 48svh), 420px);
+  width: var(--logo-w);
+  /* охранное поле по брендбуку: 3u = 0.6 высоты знака ≈ 0.122 ширины логотипа */
+  margin-bottom: calc(var(--logo-w) * 0.13);
 }
 
 .hero__logo img,
@@ -209,22 +211,6 @@ a {
   position: relative;
   width: 100%;
   height: auto;
-  filter: drop-shadow(0 0 24px rgba(124, 58, 237, 0.45));
-}
-
-.hero__logo-glow {
-  position: absolute;
-  inset: -160% -12%;
-  background: radial-gradient(closest-side, rgba(167, 139, 250, 0.3), transparent 70%);
-  filter: blur(10px);
-  animation: breathe 4s ease-in-out infinite;
-}
-
-@keyframes breathe {
-  50% {
-    opacity: 0.45;
-    scale: 0.9;
-  }
 }
 
 .hero__title {
@@ -583,7 +569,7 @@ a {
 
 .credit {
   margin-top: 4px;
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-size: 15px;
   font-weight: 600;
   letter-spacing: 0.18em;
@@ -602,8 +588,9 @@ a {
 
 .finale__logo {
   position: relative;
-  width: clamp(200px, 24vw, 300px);
-  margin-bottom: 6px;
+  --logo-w: clamp(200px, 24vw, 300px);
+  width: var(--logo-w);
+  margin: calc(var(--logo-w) * 0.13) 0 calc(var(--logo-w) * 0.13 - 18px);
 }
 
 /* ---------- MOBILE ---------- */

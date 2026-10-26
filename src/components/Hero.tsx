@@ -72,7 +72,6 @@ export function Hero() {
           animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
           transition={{ duration: 1.4, ease }}
         >
-          <span className="hero__logo-glow" aria-hidden="true" />
           <Logo />
         </motion.div>
 
