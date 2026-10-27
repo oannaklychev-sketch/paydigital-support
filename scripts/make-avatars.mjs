@@ -78,9 +78,8 @@ async function keyWhite(file) {
 }
 
 for (const id of ids) {
-  const fresh = join(root, '..', `${id} новый.png`)
-  const old = join(root, '..', `${id}.png`)
-  const src = existsSync(fresh) ? fresh : existsSync(old) ? old : null
+  const candidates = [`${id}-new.png`, `${id} новый.png`, `${id}.png`].map((f) => join(root, '..', f))
+  const src = candidates.find((f) => existsSync(f)) ?? null
   if (!src) {
     console.log(id, 'без нового фото, аватар не меняется')
     continue
